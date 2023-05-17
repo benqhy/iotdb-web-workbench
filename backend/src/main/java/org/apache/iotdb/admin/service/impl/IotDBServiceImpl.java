@@ -2689,12 +2689,12 @@ public class IotDBServiceImpl implements IotDBService {
     Integer port = 0;
     // TODO: 【清华】端口8086实际上是动态的从connection表中获取，但iotdb-0.13.0存在bug，导致写入的指标位置不对，等待修复，先暂时写死
     String show_version = executeQueryOneValue(sessionPool, "show version");
-    if (show_version.contains("0.13") || show_version.contains("0.14")) {
-      port = 8086;
-    } else if (show_version.contains("0.12")) {
+//    if (show_version.contains("0.13") || show_version.contains("0.14")) {
+//      port = 8086;
+//    } else if (show_version.contains("0.12")) {
       port = 6667;
       url = "0.0.0.0";
-    }
+//    }
     // TODO: 指标先写死，后面根据指标Id判断用哪个timeSeries拼串为SQL查得值。
     MetricsChartDataVO metricsChartDataVO = null;
     MetricsDataForDiagramVO metricsDataForDiagramVO = new MetricsDataForDiagramVO();
@@ -3576,24 +3576,24 @@ public class IotDBServiceImpl implements IotDBService {
     }
     String sql =
         "select * from "
-            + "root._metric.\"127.0.0.1:"
+            + "root._metric.\"0.0.0.0:"
             + port
-            + "\".\"jvm.threads.states\".\"state=new\", "
-            + "root._metric.\"127.0.0.1:"
+            + "\".\"jvm.threads.states.threads\".\"state=new\", "
+            + "root._metric.\"0.0.0.0:"
             + port
-            + "\".\"jvm.threads.states\".\"state=waiting\", "
-            + "root._metric.\"127.0.0.1:"
+            + "\".\"jvm.threads.states.threads\".\"state=waiting\", "
+            + "root._metric.\"0.0.0.0:"
             + port
-            + "\".\"jvm.threads.states\".\"state=runnable\", "
-            + "root._metric.\"127.0.0.1:"
+            + "\".\"jvm.threads.states.threads\".\"state=runnable\", "
+            + "root._metric.\"0.0.0.0:"
             + port
-            + "\".\"jvm.threads.states\".\"state=blocked\", "
-            + "root._metric.\"127.0.0.1:"
+            + "\".\"jvm.threads.states.threads\".\"state=blocked\", "
+            + "root._metric.\"0.0.0.0:"
             + port
-            + "\".\"jvm.threads.states\".\"state=timed-waiting\", "
-            + "root._metric.\"127.0.0.1:"
+            + "\".\"jvm.threads.states.threads\".\"state=timed-waiting\", "
+            + "root._metric.\"0.0.0.0:"
             + port
-            + "\".\"jvm.threads.states\".\"state=terminated\" "
+            + "\".\"jvm.threads.states.threads\".\"state=terminated\" "
             + "order by time desc limit 16";
     MetricsChartDataVO metricsChartDataVO = new MetricsChartDataVO();
     try {
@@ -3669,12 +3669,12 @@ public class IotDBServiceImpl implements IotDBService {
     }
     String sql =
         "select * from "
-            + "root._metric.\"127.0.0.1:"
+            + "root._metric.\"0.0.0.0:"
             + port
-            + "\".\"jvm.threads.daemon\", "
-            + "root._metric.\"127.0.0.1:"
+            + "\".\"jvm.threads.daemon.threads\", "
+            + "root._metric.\"0.0.0.0:"
             + port
-            + "\".\"jvm.threads.live\" "
+            + "\".\"jvm.threads.live.threads\" "
             + "order by time desc limit 16";
     MetricsChartDataVO metricsChartDataVO = new MetricsChartDataVO();
     try {
@@ -3745,10 +3745,10 @@ public class IotDBServiceImpl implements IotDBService {
     }
     String sql =
         "select * from "
-            + "root._metric.\"127.0.0.1:"
+            + "root._metric.\"0.0.0.0:"
             + port
             + "\".\"jvm.threads.daemon\", "
-            + "root._metric.\"127.0.0.1:"
+            + "root._metric.\"0.0.0.0:"
             + port
             + "\".\"jvm.threads.live\" "
             + "order by time desc limit 1";
@@ -3822,10 +3822,10 @@ public class IotDBServiceImpl implements IotDBService {
     }
     String sql =
         "select * from "
-            + "root._metric.\"127.0.0.1:"
+            + "root._metric.\"0.0.0.0:"
             + port
             + "\".\"jvm.gc.pause_total\".\"action=end of minor GC\".\"cause=Metadata GC Threshold\", "
-            + "root._metric.\"127.0.0.1:"
+            + "root._metric.\"0.0.0.0:"
             + port
             + "\".\"jvm.gc.pause_total\".\"action=end of minor GC\".\"cause=Allocation Failure\" "
             + "order by time desc limit 1";
@@ -3878,7 +3878,7 @@ public class IotDBServiceImpl implements IotDBService {
     }
     String sql =
         "select * from "
-            + "root._metric.\"127.0.0.1:"
+            + "root._metric.\"0.0.0.0:"
             + port
             + "\".\"jvm.gc.pause_total\".\"action=end of minor GC\".\"cause=Metadata GC Threshold\" "
             + "order by time desc limit 1";
@@ -3931,10 +3931,10 @@ public class IotDBServiceImpl implements IotDBService {
     }
     String sql =
         "select * from "
-            + "root._metric.\"127.0.0.1:"
+            + "root._metric.\"0.0.0.0:"
             + port
             + "\".\"jvm.classes.loaded\", "
-            + "root._metric.\"127.0.0.1:"
+            + "root._metric.\"0.0.0.0:"
             + port
             + "\".\"jvm.classes.unloaded\" "
             + "order by time desc limit 16";
@@ -4005,6 +4005,7 @@ public class IotDBServiceImpl implements IotDBService {
       String timeStamp = simpleDateFormat.format(System.currentTimeMillis());
       queryMetricsVO.setSQLStatement("SELECT * FROM root.* where time > " + timeStamp);
       queryMetricsVO.setRunningTime(timeStamp);
+      //TODO qqq
       queryMetricsVO.setExecutionTime(1000 - 10 * i);
       queryMetricsVOS.add(queryMetricsVO);
     }
@@ -4035,22 +4036,22 @@ public class IotDBServiceImpl implements IotDBService {
     }
     String sql =
         "select * from "
-            + "root._metric.\"127.0.0.1:"
+            + "root._metric.\"0.0.0.0:"
             + port
             + "\".\"jvm.gc.pause_count\".\"action=end of minor GC\".\"cause=Metadata GC Threshold\", "
-            + "root._metric.\"127.0.0.1:"
+            + "root._metric.\"0.0.0.0:"
             + port
             + "\".\"jvm.gc.pause_count\".\"action=end of minor GC\".\"cause=Allocation Failure\", "
-            + "root._metric.\"127.0.0.1:"
+            + "root._metric.\"0.0.0.0:"
             + port
             + "\".\"jvm.gc.pause_count\".\"action=end of major GC\".\"cause=Metadata GC Threshold\", "
-            + "root._metric.\"127.0.0.1:"
+            + "root._metric.\"0.0.0.0:"
             + port
             + "\".\"jvm.gc.pause_total\".\"action=end of minor GC\".\"cause=Metadata GC Threshold\", "
-            + "root._metric.\"127.0.0.1:"
+            + "root._metric.\"0.0.0.0:"
             + port
             + "\".\"jvm.gc.pause_total\".\"action=end of minor GC\".\"cause=Allocation Failure\", "
-            + "root._metric.\"127.0.0.1:"
+            + "root._metric.\"0.0.0.0:"
             + port
             + "\".\"jvm.gc.pause_total\".\"action=end of major GC\".\"cause=Metadata GC Threshold\" "
             + "order by time desc limit 16";

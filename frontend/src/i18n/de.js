@@ -446,7 +446,7 @@ const de = {
       zxzb: 'Aktuelle Kennzahlergebnisse',
       sql: 'SQL Anweisungen',
       runTime: 'Laufzeit',
-      exeTime: 'Ausführungszeit(s)',
+      exeTime: 'Ausführungszeit(ms)',
       slowSearch: 'Langsames Abfragen',
       lastTime: 'Letzte Ausführung',
       runCount: 'Anzahl der Ausführungen',

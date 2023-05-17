@@ -455,7 +455,7 @@ const cn = {
       zxzb: '最新指标结果',
       sql: 'SQL语句',
       runTime: '运行时间',
-      exeTime: '执行时间(s)',
+      exeTime: '执行时间(ms)',
       slowSearch: '慢查询',
       lastTime: '最近一次运行时间',
       runCount: '运行次数',

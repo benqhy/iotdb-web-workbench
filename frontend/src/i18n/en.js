@@ -453,7 +453,7 @@ const en = {
       zxzb: 'Latest Metric results',
       sql: 'SQL Statement',
       runTime: 'Run Time',
-      exeTime: 'Execution Time(s)',
+      exeTime: 'Execution Time(ms)',
       slowSearch: 'Slow Search',
       lastTime: 'The Last Running Time',
       runCount: 'Running Times',
