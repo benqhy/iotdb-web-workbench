@@ -51,7 +51,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="$emit('close')">{{ $t('common.cancel') }}</el-button>
-          <el-button type="primary" @click="submit()">{{ $t('common.submit') }}</el-button>
+          <el-button type="primary" @click="$emit('close')">{{ $t('common.submit') }}</el-button>
         </span>
       </template>
     </el-dialog>
@@ -64,7 +64,7 @@ import { onMounted, reactive, ref } from 'vue';
 import { ElDialog, ElButton, ElForm, ElInput, ElFormItem, ElMessage } from 'element-plus';
 import { useI18n } from 'vue-i18n';
 import axios from '@/util/axios.js';
-import { useStore } from 'vuex';
+// import { useStore } from 'vuex';
 // import { useRoute } from 'vue-router';
 
 export default {
@@ -87,9 +87,9 @@ export default {
       type: Object,
     },
   },
-  setup(props, context) {
+  setup(props /*, context*/) {
     const { t } = useI18n();
-    const store = useStore();
+    /*const store = useStore();*/
     // const router = useRoute();
     let form = reactive({
       alias: '',
@@ -184,7 +184,7 @@ export default {
      * new/edit source
      */
     const submit = () => {
-      formRef.value.validate((valid) => {
+      /*formRef.value.validate((valid) => {
         let connection = {
           alias: form.alias,
           host: form.host,
@@ -203,7 +203,7 @@ export default {
             }
           });
         }
-      });
+      });*/
     };
     /**
      * get source basic info

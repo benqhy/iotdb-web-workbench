@@ -55,7 +55,7 @@
               <!--              <el-button type="text" size="small" @click="goToEntity(scope)">{{ $t('common.detail') }}{{ scope.row.ttl }}</el-button>-->
 
               <el-button type="text" size="small" @click="editDevice(scope.row)">{{ $t('common.edit') }}{{ scope.row.ttl }} </el-button>
-              <el-popconfirm placement="top" :title="'你确定要删除该服务吗?'" @confirm="deleteDevice(scope)">
+              <el-popconfirm placement="top" :title="'你确定要删除该服务吗?'" @confirm="deleteEmail(scope.row)">
                 <template #reference>
                   <el-button type="text" size="small" class="el-button-delete">{{ $t('common.delete') }}</el-button>
                 </template>
@@ -117,10 +117,10 @@ export default {
     const value1 = ref(true);
     const value2 = ref(true);
     const value = ref('');
-    let testDatas = [
-      { name: 'email1', host: 'smtp.qq.com', port: 25, address: '139312678@qq.com', state: 1 },
-      { name: 'email-test', host: 'smtp.qq.com', port: 25, address: '971897647@qq.com' },
-    ];
+    // let testDatas = [
+    //   { name: 'email1', host: 'smtp.qq.com', port: 25, address: '139312678@qq.com'},
+    //   { name: 'email-test', host: 'smtp.qq.com', port: 25, address: '971897647@qq.com' },
+    // ];
 
     const options = [
       {
@@ -163,9 +163,30 @@ export default {
         { prop: 'port', label: 'SMTP端口' },
         { prop: 'address', label: '邮箱地址' },
       ],
-      testDatas,
+      // testDatas: [
+      //   { name: 'email1', host: 'smtp.qq.com', port: 25, address: '139312678@qq.com'},
+      //   { name: 'email-test', host: 'smtp.qq.com', port: 25, address: '971897647@qq.com' },
+      // ],
       emails: ['971897647@qq.com', 'qhy1997s@163.com'],
     };
+  },
+  data() {
+    return {
+      testDatas: [
+        { name: 'email1', host: 'smtp.qq.com', port: 25, address: '139312678@qq.com' },
+        { name: 'email-test', host: 'smtp.qq.com', port: 25, address: '8414155436@qq.com' },
+      ],
+    };
+  },
+
+  methods: {
+    deleteEmail(r) {
+      console.log(r);
+      this.testDatas.splice(r, 1);
+    },
+    newEmail() {
+      this.testDatas.push({ name: 'email-test', host: 'smtp.qq.com', port: 25, address: '971897647@qq.com' });
+    },
   },
 };
 </script>
