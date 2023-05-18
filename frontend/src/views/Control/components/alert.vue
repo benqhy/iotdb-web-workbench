@@ -44,16 +44,18 @@
             fontWeight: '600',
             fontSize: '14px',
           }"
+          :cell-style="{
+            background: '#ffffff',
+          }"
         >
-          <!--          <el-table-column type="index" label="No." :width="50"/>-->
           <el-table-column v-for="col in columnList" :prop="col.prop" :label="col.label" :key="col.prop" />
-          <!--          <el-table-column type="index" label="操作" :width="50"/>-->
+
           <el-table-column :label="$t('storagePage.operation')">
             <template #default="scope">
               <!--              <el-button type="text" size="small" @click="goToEntity(scope)">{{ $t('common.detail') }}{{ scope.row.ttl }}</el-button>-->
 
-              <el-button type="text" size="small" @click="editDevice(scope.row)">{{ $t('common.edit') }}{{ scope.row.ttl }}</el-button>
-              <el-popconfirm placement="top" :title="$t('storagePage.deleteDeviceConfirm')" @confirm="deleteDevice(scope)">
+              <el-button type="text" size="small" @click="editDevice(scope.row)">{{ $t('common.edit') }}{{ scope.row.ttl }} </el-button>
+              <el-popconfirm placement="top" :title="'你确定要删除该服务吗?'" @confirm="deleteDevice(scope)">
                 <template #reference>
                   <el-button type="text" size="small" class="el-button-delete">{{ $t('common.delete') }}</el-button>
                 </template>
@@ -63,6 +65,36 @@
         </el-table>
       </div>
       <NewSource v-if="showDialog" :func="func" :serverId="null" :showDialog="showDialog" :types="types" @close="close()" @successFunc="successFunc(data)" />
+
+      <div class="headerbox" style="padding: 15px 15px 10px 15px">
+        <div style="padding: 0 0 10px 0">
+          告警开关
+          <el-switch v-model="value1" style="--el-switch-on-color: #16c493" />
+        </div>
+        <br />
+        <div style="padding: 0 0 10px 0">
+          选择邮件服务
+          <el-select v-model="value" class="m-2" placeholder="email1">
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+          </el-select>
+        </div>
+        <br />
+        <div style="background-color: #f9fbfc; width: 250px; height: 200px">
+          <el-button @click="newUser()">
+            添加接收邮箱
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-add1"></use></svg
+          ></el-button>
+          <div v-for="(email, index) in emails" :key="index" style="font-size: small">
+            <br />{{ email }}
+            <div style="float: right">
+              <svg aria-hidden="true" class="icon icon-delete">
+                <use xlink:href="#icon-se-icon-delete"></use>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -82,6 +114,24 @@ export default {
     const showDialog = ref(false);
     const types = ref(null);
     const funcdata = reactive(props.func);
+    const value1 = ref(true);
+    const value2 = ref(true);
+    const value = ref('');
+    let testDatas = [
+      { name: 'email1', host: 'smtp.qq.com', port: 25, address: '139312678@qq.com', state: 1 },
+      { name: 'email-test', host: 'smtp.qq.com', port: 25, address: '971897647@qq.com' },
+    ];
+
+    const options = [
+      {
+        value: 'email1',
+        label: 'email1',
+      },
+      {
+        value: 'email-test',
+        label: 'email-test',
+      },
+    ];
 
     const newSource = () => {
       showDialog.value = true;
@@ -103,16 +153,18 @@ export default {
       close,
       funcdata,
       types,
+      value1,
+      value2,
+      value,
+      options,
       columnList: [
         { prop: 'name', label: '邮件服务名' },
         { prop: 'host', label: 'SMTP主机' },
         { prop: 'port', label: 'SMTP端口' },
         { prop: 'address', label: '邮箱地址' },
       ],
-      testDatas: [
-        { name: 'email1', host: 'smtp.qq.com', port: 25, address: '139312678@qq.com' },
-        { name: 'email-test', host: 'smtp.qq.com', port: 25, address: '971897647@qq.com' },
-      ],
+      testDatas,
+      emails: ['971897647@qq.com', 'qhy1997s@163.com'],
     };
   },
 };
@@ -137,5 +189,34 @@ export default {
   border: 1px solid #eaecf0;
   margin-bottom: 20px;
   background: #fff;
+}
+
+.a-part {
+  width: 220px;
+  margin-right: 20px;
+  border-color: #f9fbfc;
+  background: #f9fbfc;
+  .title {
+    height: 40px !important;
+    width: 220px;
+    font-size: 12px;
+    background: #f9fbfc;
+    line-height: 40px;
+    padding: 0 20px;
+    margin-bottom: 4px;
+    border-color: #f9fbfc;
+    text-align: left;
+
+    .icon {
+      margin-top: 7px;
+      float: right;
+    }
+
+    button {
+      float: right;
+      font-size: 12px;
+      padding-right: 0;
+    }
+  }
 }
 </style>

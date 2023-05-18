@@ -38,7 +38,7 @@ import {
   ElCheckbox,
   // ElCheckboxButton,
   ElCheckboxGroup,
-  // ElSwitch,
+  ElSwitch,
   ElSelect,
   ElOption,
   // ElOptionGroup,
@@ -125,7 +125,7 @@ export default {
     Vue.use(ElCheckbox);
     // Vue.use(ElCheckboxButton);
     Vue.use(ElCheckboxGroup);
-    // Vue.use(ElSwitch);
+    Vue.use(ElSwitch);
     Vue.use(ElSelect);
     Vue.use(ElOption);
     // Vue.use(ElOptionGroup);

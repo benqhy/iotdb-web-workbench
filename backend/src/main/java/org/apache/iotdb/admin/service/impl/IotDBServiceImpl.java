@@ -2593,36 +2593,40 @@ public class IotDBServiceImpl implements IotDBService {
     List<QueryDataVO> queryDataVOS = new ArrayList<>();
     switch (queryClassificationId % 2) {
       case 0:
-        for (int i = 0; i < 200; i++) {
+        for (int i = 0; i < 162; i++) {
           QueryData1VO queryDataVO = new QueryData1VO();
           long currentTimeMillis = System.currentTimeMillis();
           queryDataVO.setId(i);
           queryDataVO.setStatement(
               "select * from root._metric.'127.0.0.1:8086'.'process_cpu_time'.'name=process'");
           queryDataVO.setRunningTime(currentTimeMillis);
-          queryDataVO.setIsSlowQuery(i % 2 == 0 ? false : true);
-          queryDataVO.setTotalTime((int) (currentTimeMillis % 100));
-          queryDataVO.setAnalysisTime((int) (currentTimeMillis % 50));
-          queryDataVO.setPrecompiledTime((int) (currentTimeMillis % 30));
-          queryDataVO.setOptimizedTime((int) (currentTimeMillis % 20));
-          queryDataVO.setExecutionTime((int) (currentTimeMillis % 10));
-          queryDataVO.setExecutionResult(i % 2 == 0 ? 1 : 2);
+          queryDataVO.setIsSlowQuery((i+1) % 8 == 0 ? true : false);
+          int time1 = (int) (Math.random()*50) + 1;
+          int time2 = (int) (Math.random()*50) + 1;
+          int time3 = (int) (Math.random()*50) + 1;
+          int time4 = (int) (Math.random()*50) + 1;
+          queryDataVO.setAnalysisTime(time1);
+          queryDataVO.setPrecompiledTime(time2);
+          queryDataVO.setOptimizedTime (time3);
+          queryDataVO.setExecutionTime(time3);
+          queryDataVO.setTotalTime(time1 + time2 + time3 + time4);
+          queryDataVO.setExecutionResult((i+1) % 8 == 0 ? 2 : 1);
           queryDataVOS.add(queryDataVO);
         }
         break;
       case 1:
-        for (int i = 0; i < 200; i++) {
+        for (int i = 0; i < 251; i++) {
           QueryDataVO queryDataVO = new QueryDataVO();
           long currentTimeMillis = System.currentTimeMillis();
           queryDataVO.setId(i);
           queryDataVO.setStatement(
               "select * from root._metric.'127.0.0.1:8086'.'process_cpu_time'.'name=process'");
           queryDataVO.setRunningTime(currentTimeMillis);
-          queryDataVO.setIsSlowQuery(i % 2 == 0 ? false : true);
-          queryDataVO.setTotalTime((int) (currentTimeMillis % 100));
-          queryDataVO.setAnalysisTime((int) (currentTimeMillis % 50));
-          queryDataVO.setExecutionTime((int) (currentTimeMillis % 10));
-          queryDataVO.setExecutionResult(i % 2 == 0 ? 1 : 2);
+          queryDataVO.setIsSlowQuery((i+1) % 7 == 0 ? true : false);
+          queryDataVO.setTotalTime((int) (Math.random()*50) + 1);
+          queryDataVO.setAnalysisTime((int) (Math.random()*50) + 1);
+          queryDataVO.setExecutionTime((int) (Math.random()*50) + 1);
+          queryDataVO.setExecutionResult((i+1) % 7 == 0 ? 2 : 1);
           queryDataVOS.add(queryDataVO);
         }
         break;

@@ -25,14 +25,6 @@
 
             <indicator-panel v-else :currentData="currentData" />-->
       <div class="headerbox" style="padding: 15px 15px 10px 15px">
-        <!--        <div style="padding: 0 0 10px 0" class="flexBox edit-box">
-          <el-button type="primary" class="newButton" @click="editDevce">{{ $t('device.editTimeseries') }}</el-button>
-          <form-table :form="form" @serchFormData="serchFormData"></form-table>
-        </div>-->
-        <div style="padding: 0 0 10px 0" class="flexBox edit-box">
-          <el-button type="primary" class="newButton" @click="newSource">告警历史</el-button>
-          <!--          <form-table :form="form" @serchFormData="serchFormData"></form-table>-->
-        </div>
         <el-table
           :data="testDatas"
           border
@@ -44,12 +36,27 @@
             fontWeight: '600',
             fontSize: '14px',
           }"
+          :cell-style="{
+            background: '#ffffff',
+          }"
         >
-          <el-table-column type="index" label="No." :width="50" />
-          <el-table-column v-for="col in columnList" :prop="col.prop" :label="col.label" :key="col.prop" />
+          <el-table-column type="index" label="序号" :width="50" />
+          <el-table-column label="数据连接" prop="conn" :min-width="15"> </el-table-column>
+          <el-table-column label="异常时间戳" prop="ab" :min-width="20"></el-table-column>
+          <el-table-column label="接受邮箱" prop="email" :min-width="25"> </el-table-column>
+          <el-table-column label="最可能异常的指标" prop="mo" :min-width="40"> </el-table-column>
         </el-table>
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-sizes="[10, 15, 20]"
+          :page-size="pagesize"
+          layout="total, sizes, prev, pager, next"
+          :total="testDatas.length"
+        >
+        </el-pagination>
       </div>
-      <NewSource v-if="showDialog" :func="func" :serverId="null" :showDialog="showDialog" :types="types" @close="close()" @successFunc="successFunc(data)" />
     </div>
   </div>
 </template>
@@ -57,15 +64,16 @@
 <script>
 import { reactive, ref } from 'vue';
 // import {useRoute} from 'vue-router';
-import NewSource from './newSource';
+
+import axios from 'axios';
 
 export default {
   name: 'Alert',
   props: [/*'handleNodeClick', 'nodekey',*/ 'func'],
-  components: {
-    NewSource,
-  },
+  components: {},
   setup(props) {
+    // this.handleUserList();
+
     const showDialog = ref(false);
     const types = ref(null);
     const funcdata = reactive(props.func);
@@ -90,19 +98,46 @@ export default {
       close,
       funcdata,
       types,
-      columnList: [
-        { prop: 'name', label: '姓名' },
-        { prop: 'age', label: '年龄' },
-        { prop: 'city', label: '城市' },
-        { prop: 'tel', label: '电话' },
-      ],
+
       testDatas: [
-        { No: 1, name: '张三', age: 24, city: '广州', tel: '13312345678' },
-        { No: 2, name: '李四', age: 25, city: '九江', tel: '18899998888' },
-        { No: 3, name: '王五', age: 26, city: '六盘水', tel: '13600001111' },
-        { No: 4, name: '赵二', age: 27, city: '菏泽', tel: '13145209420' },
+        { conn: 'local', ab: '2023-05-17 21:21:52.253', email: '971897647@qq.com', mo: 'CPU使用率、JVM线程数、内存使用率' },
+        { conn: 'local', ab: '2023-05-17 20:49:35.231', email: '971897647@qq.com', mo: 'CPU使用率、JVM线程数、内存使用率' },
+        { conn: 'local', ab: '2023-05-16 21:21:52.368', email: '971897647@qq.com', mo: '查询成功率、磁盘IO吞吐、内存使用率' },
+        { conn: 'local', ab: '2023-05-16 20:47:12.463', email: '971897647@qq.com', mo: 'CPU使用率、内存使用率、FGC耗时' },
+        { conn: 'local', ab: '2023-05-12 17:51:64.126', email: '971897647@qq.com', mo: 'CPU使用率、JVM线程数、内存使用率' },
+        { conn: 'local', ab: '2023-05-12 15:22:11.563', email: '971897647@qq.com', mo: '内存使用率、CPU使用率、磁盘IO吞吐' },
+        { conn: 'local', ab: '2023-05-12 15:10:35.871', email: '971897647@qq.com', mo: '内存使用率、CPU使用率、磁盘IO吞吐' },
+        { conn: 'local', ab: '2023-05-12 15:01:52.432', email: '971897647@qq.com', mo: '内存使用率、CPU使用率、磁盘IO吞吐' },
       ],
+
+      currentPage: 1, //初始页
+      pagesize: 20, //    每页的数据
+      userList: [1, 2, 3, 9, 2, 21, 1, 3],
     };
+  },
+  methods: {
+    // 初始页currentPage、初始每页数据数pagesize和数据data
+    handleSizeChange(size) {
+      console.log(size, 'size');
+      this.pagesize = size;
+      console.log(this.pagesize); //每页下拉显示数据
+    },
+    handleCurrentChange(currentPage) {
+      console.log(currentPage, 'currentPage');
+      this.currentPage = currentPage;
+      console.log(this.currentPage); //点击第几页
+    },
+    handleUserList() {
+      axios
+        .get('/user/list')
+        .then((res) => {
+          console.log(res, 'res');
+          this.userList = res.data.data.list[0].records;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
 };
 </script>
