@@ -3987,7 +3987,7 @@ public class IotDBServiceImpl implements IotDBService {
       String timeStamp = simpleDateFormat.format(System.currentTimeMillis());
       queryMetricsVO.setSQLStatement("SELECT * FROM root.* where time > " + timeStamp);
       queryMetricsVO.setRunningTime(timeStamp);
-      queryMetricsVO.setExecutionTime(200 - 10 * i);
+      queryMetricsVO.setExecutionTime((int)(Math.random()*500) + 500);
       queryMetricsVOS.add(queryMetricsVO);
     }
     return queryMetricsVOS;
@@ -4006,7 +4006,7 @@ public class IotDBServiceImpl implements IotDBService {
       queryMetricsVO.setSQLStatement("SELECT * FROM root.* where time > " + timeStamp);
       queryMetricsVO.setRunningTime(timeStamp);
       //TODO qqq
-      queryMetricsVO.setExecutionTime(1000 - 10 * i);
+      queryMetricsVO.setExecutionTime((int)(Math.random()*200));
       queryMetricsVOS.add(queryMetricsVO);
     }
     return queryMetricsVOS;

@@ -135,6 +135,8 @@ export default {
     let tabPaneOptions = ref([
       { name: 'Indicator', label: t('controlPage.monitor') },
       { name: 'Query', label: t('controlPage.search') },
+      { name: 'Alert', label: t('controlPage.alert') },
+      { name: 'AlertHistory', label: '告警历史' },
     ]);
     //数据列表选中id
     let checkedId = computed(() => currentData.value && currentData.value.id);
@@ -175,6 +177,10 @@ export default {
         router.push({ path: `/control/indicator/${panelMode}/${id}/${params.mode}`, query: { ...route.query } });
       } else if (routerName === 'Query') {
         router.push({ path: `/control/query/${id}` });
+      } else if (routerName === 'Alert') {
+        router.push({ path: `/control/alert/${id}` });
+      } else if (routerName === 'AlertHistory') {
+        router.push({ path: `/control/alertHistory/${id}` });
       }
     }
     async function initFun() {

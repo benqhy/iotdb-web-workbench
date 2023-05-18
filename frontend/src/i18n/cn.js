@@ -438,6 +438,7 @@ const cn = {
       total: '数据总量',
       monitor: '监控指标',
       search: '查询统计',
+      alert: '告警配置',
       allMode: '全部模式',
       devMode: '开发者模式',
       opeMode: '运维者模式',

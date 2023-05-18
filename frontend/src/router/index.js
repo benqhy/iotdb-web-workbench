@@ -113,6 +113,16 @@ const routes = [
             name: 'Query',
             component: () => import(/* webpackChunkName: "Query" */ '../views/Control/components/query.vue'),
           },
+          {
+            path: 'alert/:id',
+            name: 'Alert',
+            component: () => import(/* webpackChunkName: "Alert" */ '../views/Control/components/alert.vue'),
+          },
+          {
+            path: 'alertHistory/:id',
+            name: 'AlertHistory',
+            component: () => import(/* webpackChunkName: "Alert" */ '../views/Control/components/alertHistory.vue'),
+          },
         ],
       },
     ],
